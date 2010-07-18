@@ -1,0 +1,24 @@
+-- Julio Cesar Correa
+-- DBA Oracle
+
+Can one export to multiple files?/ Can one beat the Unix 2 Gig limit?
+
+From Oracle8i, the export utility supports multiple output files. This feature enables large exports to be divided into files whose sizes will not exceed any operating system limits (FILESIZE= parameter). When importing from multi-file export you must provide the same filenames in the same sequence in the FILE= parameter. Look at this example:
+exp SCOTT/TIGER FILE=D:F1.dmp,E:F2.dmp FILESIZE=10m LOG=scott.log
+Use the following technique if you use an Oracle version prior to 8i:
+Create a compressed export on the fly. Depending on the type of data, you probably can export up to 10 gigabytes to a single file. This example uses gzip. It offers the best compression I know of, but you can also substitute it with zip, compress or whatever.
+# create a named pipe
+mknod exp.pipe p
+# read the pipe - output to zip file in the background
+gzip < exp.pipe > scott.exp.gz &
+# feed the pipe
+exp userid=scott/tiger file=exp.pipe ...[/code]
+Contributed by Jared Still
+Import directly from a compressed export:
+# create a  name pipe
+mknod imp_pipe p
+# read the zip file and output to pipe
+gunzip < exp_file.dmp.gz > imp_pipe &
+# feed the pipe
+imp system/pwd@sid file=imp_pipe log=imp_pipe.log ...
+Contributed by Blaise BIBOUE.

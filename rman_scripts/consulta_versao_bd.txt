@@ -1,0 +1,13 @@
+-- Julio Cesar Correa
+-- DBA Oracle
+
+select * from product_component_version ;
+select comp_name,status,version from dba_registry ;
+
+no SO:
+
+grep -w s_serverInstallType $ORACLE_HOME/inventory/Components21/oracle.server/*/context.xml |
+  tr ' ' '\n' | 
+  grep VAL
+  
+  http://www.orafaq.com/wiki/Oracle_licensing

@@ -1,0 +1,30 @@
+-- Julio Cesar Correa
+-- DBA Oracle
+
+Migrating to ASM Using RMAN
+
+The following method shows how a primary database can be migrated to ASM from a disk based backup:
+Disable change tracking (only available in Enterprise Edition) if it is currently being used.
+SQL> ALTER DATABASE DISABLE BLOCK CHANGE TRACKING;
+Shutdown the database.
+SQL> SHUTDOWN IMMEDIATE
+Modify the parameter file of the target database as follows:
+Set the DB_CREATE_FILE_DEST and DB_CREATE_ONLINE_LOG_DEST_n parameters to the relevant ASM disk groups.
+Remove the CONTROL_FILES parameter from the spfile so the control files will be moved to the DB_CREATE_* destination and the spfile gets updated automatically. If you are using a pfile the CONTROL_FILES parameter must be set to the appropriate ASM files or aliases.
+
+Start the database in nomount mode.
+RMAN> STARTUP NOMOUNT
+Restore the controlfile into the new location from the old location.
+RMAN> RESTORE CONTROLFILE FROM 'old_control_file_name';
+Mount the database.
+RMAN> ALTER DATABASE MOUNT;
+Copy the database into the ASM disk group.
+RMAN> BACKUP AS COPY DATABASE FORMAT '+disk_group';
+Switch all datafile to the new ASM location.
+RMAN> SWITCH DATABASE TO COPY;
+Open the database.
+RMAN> ALTER DATABASE OPEN;
+Create new redo logs in ASM and delete the old ones.
+
+Enable change tracking if it was being used.
+SQL> ALTER DATABASE ENABLE BLOCK CHANGE TRACKING;

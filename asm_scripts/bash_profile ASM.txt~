@@ -1,0 +1,19 @@
+# .bash_profile
+
+TMP=/tmp
+TMPDIR=$TMP
+TEMP=$TMP
+
+export ORACLE_SID=teste
+export ORACLE_BASE=/u02/app/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/10.2.0/db
+export ORA_CRS_HOME=$ORACLE_BASE/product/10.2.0/crs
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+
+ORACLE_TERM=xterm
+export ORACLE_TERM
+PATH=$PATH:$ORACLE_HOME/bin:$PATH
+LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
+CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+export CLASSPATH
+export PATH

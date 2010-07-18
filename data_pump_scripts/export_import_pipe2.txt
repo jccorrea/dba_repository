@@ -1,0 +1,259 @@
+-- Julio Cesar Correa
+-- DBA Oracle
+
+Export Files Greater Than 2GB
+
+by Jeff Hunter, Sr. Database Administrator
+
+Contents
+
+Overview
+Other 2Gb Export Issues
+Example: (Using Compress and Split)
+Example: (Using only Split)
+Example: (Using only Compress)
+
+Overview
+
+In this article, I will attempt to unravel many of the mystries around the 2G dump file size surrounding Oracle utilities like "export". I will also provide a workaround using split, compress and named pipes that allows the DBA to export large databases in the UNIX environment
+Most versions of Oracle's export utility use the default file open API when creating an export file. This means that on many platforms it is impossible to export a file of 2G or larger to a file system file.
+
+There is some confusion over the >2GB patch released by Oracle which allows datafiles to be >2GB datafiles. This patch and file size only applies to the RDBMS itself, not its utilties. The Oracle export dump files still are restricted to less than 2GB as specified in the product documentation. The same holds true for import files and SQL*Loader data files.
+
+There are several options available to overcome 2Gb file limits with export such as:
+
+It is generally possible to write an export > 2Gb to a raw device. Obviously the raw device has to be large enough to fit the entire export into it.
+By exporting to a named pipe (on Unix), the DBA can compress, zip or split up the output. (See examples below).
+The DBA can export to tape (on most platforms)
+Oracle8i allows you to write an export to multiple export files rather than to one large export file.
+
+Other 2Gb Export Issues
+
+Oracle has a maximum extent size of 2Gb. Unfortunately there is a problem with EXPORT on many releases of Oracle such that if you export a large table and specify COMPRESS=Y then it is possible for the NEXT storage clause of the statement in the EXPORT file to contain a size above 2Gb. This will cause import to fail even if IGNORE=Y is specified at import time.
+An export will typically report errors like this when it hits a 2Gb limit:
+
+. . exporting table                   BIGEXPORT
+          EXP-00015: error on row 10660 of table BIGEXPORT, 
+                  column MYCOL, datatype 96
+          EXP-00002: error in writing to export file
+          EXP-00002: error in writing to export file
+          EXP-00000: Export terminated unsuccessfully
+There is a secondary issue reported in [BUG:185855] which indicates that a full database export generates a CREATE TABLESPACE command with the file size specified in BYTES. If the filesize is above 2Gb this may cause an ORA-2237 error when attempting to create the file on IMPORT. This issue can be worked around be creating the tablespace prior to importing by specifying the file size in 'M' instead of in bytes.
+
+
+Example: (Using Compress and Split)
+
+Export
+#!/bin/ksh
+
+# +---------------------------------------+
+# | Change directory to the EXPORT_DIR.   |
+# +---------------------------------------+
+cd /u03/app/oradata/TESTDB/export
+pwd
+
+# +---------------------------------------+
+# | Remove previous pipes (if any)        |
+# +---------------------------------------+
+rm -f compress_pipe
+rm -f export_pipe
+
+# +---------------------------------------+
+# | Make two new pipes (Compress / Split) |
+# +---------------------------------------+
+mknod compress_pipe p
+mknod export_pipe p
+chmod 666 export_pipe compress_pipe
+
+# +---------------------------------------+
+# | Start both the Split and Compress     |
+# | backgroud processes.                  |
+# +---------------------------------------+
+nohup split -b 1024m < export_pipe &
+nohup compress < compress_pipe > export_pipe &
+
+# +---------------------------------------+
+# | Finally, start the export to both     |
+# | pipes.                                |
+# +---------------------------------------+
+exp userid=system/manager file=compress_pipe full=yes log=exportTESTDB.log
+
+# +---------------------------------------+
+# | Remove the pipes.                     |
+# +---------------------------------------+
+rm -f compress_pipe
+rm -f export_pipe
+Import
+#!/bin/ksh
+# +---------------------------------------+
+# | Change directory to the EXPORT_DIR.   |
+# +---------------------------------------+
+cd /u03/app/oradata/TESTDB/export
+pwd
+
+# +---------------------------------------+
+# | Remove previous pipe (if any)         |
+# +---------------------------------------+
+rm -f import_pipe
+
+# +---------------------------------------+
+# | Make two new pipes (Compress / Split) |
+# +---------------------------------------+
+mknod import_pipe p
+chmod 666 import_pipe
+
+# +---------------------------------------+
+# | Start both the Uncompress             |
+# | backgroud processes.                  |
+# | This example assumes the export script|
+# | (above) created three dump files xaa, |
+# | xab and xac.                          |
+# +---------------------------------------+
+nohup cat xaa xab xac | uncompress - > import_pipe &
+
+imp userid=system/manager file=import_pipe full=yes ignore=yes log=importTESTDB.log
+
+# +---------------------------------------+
+# | Remove the pipe.                      |
+# +---------------------------------------+
+rm -f import_pipe
+
+Example: (Using only Split)
+
+Export
+#!/bin/ksh
+
+# +---------------------------------------+
+# | Change directory to the EXPORT_DIR.   |
+# +---------------------------------------+
+cd /u03/app/oradata/TESTDB/export
+pwd
+
+# +---------------------------------------+
+# | Remove previous pipes (if any)        |
+# +---------------------------------------+
+rm -f export_pipe
+
+# +---------------------------------------+
+# | Make new pipe (Split)                 |
+# +---------------------------------------+
+mknod export_pipe p
+chmod 666 export_pipe
+
+# +---------------------------------------+
+# | Start the Split backgroud process.    |
+# +---------------------------------------+
+nohup split -b 1024m < export_pipe &
+
+# +---------------------------------------+
+# | Finally, start the export to the pipe.|
+# +---------------------------------------+
+exp userid=system/manager file=export_pipe full=yes log=exportTESTDB.log
+
+# +---------------------------------------+
+# | Remove the pipe.                      |
+# +---------------------------------------+
+rm -f export_pipe
+Import
+#!/bin/ksh
+# +---------------------------------------+
+# | Change directory to the EXPORT_DIR.   |
+# +---------------------------------------+
+cd /u03/app/oradata/TESTDB/export
+pwd
+
+# +---------------------------------------+
+# | Remove previous pipe (if any)         |
+# +---------------------------------------+
+rm -f import_pipe
+
+# +---------------------------------------+
+# | Make new pipe (Split)                 |
+# +---------------------------------------+
+mknod import_pipe p
+chmod 666 import_pipe
+
+# +---------------------------------------+
+# | Start the Split backgroud processes.  |
+# | This example assumes the export script|
+# | (above) created three dump files xaa, |
+# | xab and xac.                          |
+# +---------------------------------------+
+nohup cat xaa xab xac > import_pipe &
+
+imp userid=system/manager file=import_pipe full=yes ignore=yes log=importTESTDB.log
+
+# +---------------------------------------+
+# | Remove the pipe.                      |
+# +---------------------------------------+
+rm -f import_pipe
+
+Example: (Using only Compress)
+
+Export
+#!/bin/ksh
+
+# +---------------------------------------+
+# | Change directory to the EXPORT_DIR.   |
+# +---------------------------------------+
+cd /u03/app/oradata/TESTDB/export
+pwd
+
+# +---------------------------------------+
+# | Remove previous pipes (if any)        |
+# +---------------------------------------+
+rm -f export_pipe
+
+# +---------------------------------------+
+# | Make new pipe (for gzip)              |
+# +---------------------------------------+
+mknod export_pipe p
+chmod 666 export_pipe
+
+# +---------------------------------------+
+# | Start the gzip backgroud process.     |
+# +---------------------------------------+
+nohup cat export_pipe | gzip -9 > expdat.dmp.gz &
+
+# +---------------------------------------+
+# | Finally, start the export to the pipe.|
+# +---------------------------------------+
+exp userid=system/manager file=export_pipe full=yes log=exportTESTDB.log
+
+# +---------------------------------------+
+# | Remove the pipe.                      |
+# +---------------------------------------+
+rm -f export_pipe
+Import
+#!/bin/ksh
+# +---------------------------------------+
+# | Change directory to the EXPORT_DIR.   |
+# +---------------------------------------+
+cd /u03/app/oradata/TESTDB/export
+pwd
+
+# +---------------------------------------+
+# | Remove previous pipe (if any)         |
+# +---------------------------------------+
+rm -f import_pipe
+
+# +---------------------------------------+
+# | Make new pipe (for gzip)              |
+# +---------------------------------------+
+mknod import_pipe p
+chmod 666 import_pipe
+
+# +---------------------------------------+
+# | Start the gzip backgroud processes.   |
+# | This example assumes the export script|
+# | (above) created a dump file named     |
+# | expdat.dmp.gz.                        |
+# +---------------------------------------+
+nohup gunzip -c expdat.dmp.gz > import_pipe &
+
+imp userid=system/manager file=import_pipe full=yes ignore=yes log=importTESTDB.log
+
+# +---------------------------------------+
+# | Remove the pipe.                      |
+# +---------------------------------------+
+rm -f import_pipe

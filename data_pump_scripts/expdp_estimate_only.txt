@@ -1,0 +1,230 @@
+-- Julio Cesar Correa
+-- DBA Oracle
+
+OWNER                          OBJECT_TYPE           COUNT(*)
+------------------------------ ------------------- ----------
+STAGEAREA                      TABLE                       60
+BI_JULIO                        SYNONYM                    152
+BI_JULIO                        PACKAGE                     17
+BI_JULIO                        PROCEDURE                    1
+STAGEAREA                      INDEX                       97
+STAGEAREA                      PROCEDURE                    3
+BI_JULIO                        TABLE                       19
+BI_JULIO                        DATABASE LINK                1
+BI_JULIO                        SEQUENCE                     9
+STAGEAREA                      TRIGGER                      1
+BI_JULIO                        INDEX                       49
+
+OWNER                          OBJECT_TYPE           COUNT(*)
+------------------------------ ------------------- ----------
+BI_JULIO                        PACKAGE BODY                17
+STAGEAREA                      TYPE                         1
+STAGEAREA                      VIEW                         1
+BI_JULIO                        VIEW                        15
+BI_JULIO                        FUNCTION                     2
+STAGEAREA                      FUNCTION                     2
+
+
+
+
+expdp directory=data_pump_dir schemas=STAGEAREA,BI_JULIO estimate_only=y estimate=blocks
+
+C:\oracle\product\10.1.3\bise1\db\BIN>expdp directory=data_pump_dir schemas=STAG
+EAREA,BI_JULIO estimate_only=y estimate=blocks
+
+Export: Release 10.2.0.4.0 - Production on Monday, 18 January, 2010 13:35:51
+
+Copyright (c) 2003, 2007, Oracle.  All rights reserved.
+
+Username: DBA_JULIO
+Password:
+
+Connected to: Oracle Database 10g Release 10.2.0.4.0 - Production
+Starting "DBA_JULIO"."SYS_EXPORT_SCHEMA_02":  DBA_JULIO/******** directory
+=data_pump_dir schemas=STAGEAREA,BI_JULIO estimate_only=y estimate=blocks
+Estimate in progress using BLOCKS method...
+Processing object type SCHEMA_EXPORT/TABLE/TABLE_DATA
+.  estimated "STAGEAREA"."TBLRESUMOVENDAS"               3.627 GB
+.  estimated "BI_JULIO"."VENDAS"                            1.5 GB
+.  estimated "BI_JULIO"."SALES_REPORT"                    844.1 MB
+.  estimated "STAGEAREA"."TBLSALESREPORT"                  408 MB
+.  estimated "STAGEAREA"."TBLRESUMORETORNO"                373 MB
+.  estimated "BI_JULIO"."RETORNO"                           200 MB
+.  estimated "STAGEAREA"."TBLRESUMOCORTES"                 169 MB
+.  estimated "BI_JULIO"."CORTE"                             136 MB
+.  estimated "BI_JULIO"."SITUACAO_CLIENTE"                  112 MB
+.  estimated "STAGEAREA"."BKP_TBLRESUMORETORNO"             96 MB
+.  estimated "BI_JULIO"."CLIENTE"                         63.12 MB
+.  estimated "BI_JULIO"."CLIENTE_BKP0604"                    46 MB
+.  estimated "STAGEAREA"."TBLOBJETIVO"                      43 MB
+.  estimated "BI_JULIO"."OBJETIVO"                           40 MB
+.  estimated "BI_JULIO"."PRODUTO"                         10.87 MB
+.  estimated "STAGEAREA"."TBLCLIENTE"                       10 MB
+.  estimated "STAGEAREA"."TBLCMV"                            2 MB
+.  estimated "STAGEAREA"."TBLRESUMORETORNO_17112008"         2 MB
+.  estimated "STAGEAREA"."TBLRESUMORETORNO_BKP"              2 MB
+.  estimated "BI_JULIO"."CMV"                               960 KB
+.  estimated "BI_JULIO"."FILIAL"                            960 KB
+.  estimated "BI_JULIO"."PERIODO_DIA_OWB"                   832 KB
+.  estimated "BI_JULIO"."MOTIVO_CORTE"                      704 KB
+.  estimated "BI_JULIO"."PERIODO_DIA"                       576 KB
+.  estimated "BI_JULIO"."PRODUTO_BKP0604"                   576 KB
+.  estimated "BI_JULIO"."MOTIVO_RETORNO"                    512 KB
+.  estimated "STAGEAREA"."TBLCADASTRO"                     320 KB
+.  estimated "BI_JULIO"."PERIODO"                           256 KB
+.  estimated "STAGEAREA"."TBLCIDADE"                       256 KB
+.  estimated "STAGEAREA"."TBLMATERIAL"                     256 KB
+.  estimated "BI_JULIO"."TIPO_LANCAMENTO"                   128 KB
+.  estimated "STAGEAREA"."TBLDUN14"                        128 KB
+.  estimated "STAGEAREA"."TBLEAN13"                        128 KB
+.  estimated "STAGEAREA"."TBLMATERIALREDE"                 128 KB
+.  estimated "STAGEAREA"."TBLREPRESENTANTE"                128 KB
+.  estimated "STAGEAREA"."TBLUSUARIOREGIONAL"              128 KB
+.  estimated "BI_JULIO"."WB_RT_VERSION_FLAG"                 64 KB
+.  estimated "STAGEAREA"."BKP_TBLPORTALUSER_12022007"       64 KB
+.  estimated "STAGEAREA"."TBLAREANIELSEN"                   64 KB
+.  estimated "STAGEAREA"."TBLASSMERCH"                      64 KB
+.  estimated "STAGEAREA"."TBLASSVENDAS"                     64 KB
+.  estimated "STAGEAREA"."TBLCATEGORIA"                     64 KB
+.  estimated "STAGEAREA"."TBLCHECKOUT"                      64 KB
+.  estimated "STAGEAREA"."TBLCONDPAGTO"                     64 KB
+.  estimated "STAGEAREA"."TBLDATAETL"                       64 KB
+.  estimated "STAGEAREA"."TBLEMBALAGEM"                     64 KB
+.  estimated "STAGEAREA"."TBLEMPRESA"                       64 KB
+.  estimated "STAGEAREA"."TBLFATO"                          64 KB
+.  estimated "STAGEAREA"."TBLFECHAMENTO"                    64 KB
+.  estimated "STAGEAREA"."TBLFILIAL"                        64 KB
+.  estimated "STAGEAREA"."TBLGRPCANAL"                      64 KB
+.  estimated "STAGEAREA"."TBLGRPECONOMICO"                  64 KB
+.  estimated "STAGEAREA"."TBLGRPREDE"                       64 KB
+.  estimated "STAGEAREA"."TBLKEYACCOUNT"                    64 KB
+.  estimated "STAGEAREA"."TBLLOG"                           64 KB
+.  estimated "STAGEAREA"."TBLMARCA"                         64 KB
+.  estimated "STAGEAREA"."TBLMATERIALREDE_LOG"              64 KB
+.  estimated "STAGEAREA"."TBLMERCADO"                       64 KB
+.  estimated "STAGEAREA"."TBLMIX"                           64 KB
+.  estimated "STAGEAREA"."TBLMIXMATERIAL"                   64 KB
+.  estimated "STAGEAREA"."TBLMOTIVOCORTE"                   64 KB
+.  estimated "STAGEAREA"."TBLMOTIVODEVOLUCAO"               64 KB
+.  estimated "STAGEAREA"."TBLMOTIVORETORNO"                 64 KB
+.  estimated "STAGEAREA"."TBLNATATIVIDADE"                  64 KB
+.  estimated "STAGEAREA"."TBLPAIS"                          64 KB
+.  estimated "STAGEAREA"."TBLPORTALUSER"                    64 KB
+.  estimated "STAGEAREA"."TBLPRODUTO"                       64 KB
+.  estimated "STAGEAREA"."TBLREDE"                          64 KB
+.  estimated "STAGEAREA"."TBLREGIAO"                        64 KB
+.  estimated "STAGEAREA"."TBLREGIONAL"                      64 KB
+.  estimated "STAGEAREA"."TBLSINCRONIZABI"                  64 KB
+.  estimated "STAGEAREA"."TBLSUPERVISOR"                    64 KB
+.  estimated "STAGEAREA"."TBLTIPOCARGA"                     64 KB
+.  estimated "STAGEAREA"."TBLTIPOCOMPRA"                    64 KB
+.  estimated "STAGEAREA"."TBLTIPOLANCTO"                    64 KB
+.  estimated "STAGEAREA"."TBLTIPOOBJ"                       64 KB
+.  estimated "STAGEAREA"."TBLUF"                            64 KB
+.  estimated "STAGEAREA"."TBLUSUARIO"                       64 KB
+.  estimated "STAGEAREA"."TBLCONFEREBI"                      0 KB
+Total estimation using BLOCKS method: 7.634 GB
+Job "DBA_JULIO"."SYS_EXPORT_SCHEMA_02" successfully completed at 13:37:00
+
+
+C:\oracle\product\10.1.3\bise1\db\BIN>
+
+-- na vm-yoki
+
+expdp  schemas=STAGEAREA,BI_JULIO estimate_only=y estimate=blocks
+
+C:\Documents and Settings\julio.correa>expdp  BI_JULIO@vm-yoki schemas=STAGEAREA,BI_JULIO estimate_only=y estimate=blocks
+
+Export: Release 10.2.0.1.0 - Production on Segunda-Feira, 18 Janeiro, 2010 14:06:13
+
+Copyright (c) 2003, 2005, Oracle.  All rights reserved.
+Senha:
+
+Conectado a: Oracle Database 10g Release 10.2.0.1.0 - Production
+Iniciando "BI_JULIO"."SYS_EXPORT_SCHEMA_01":  BI_JULIO/********@vm-yoki schemas=STAGEAREA,BI_JULIO estimate_only=y estimate=blocks
+Estimativa em andamento com o mÚtodo BLOCKS...
+Processando o tipo de objeto SCHEMA_EXPORT/TABLE/TABLE_DATA
+.  estimou "STAGEAREA"."TBLRESUMOVENDAS"               2.687 GB
+.  estimou "BI_JULIO"."VENDAS"                          1.187 GB
+.  estimou "STAGEAREA"."TBLRESUMORETORNO"                280 MB
+.  estimou "STAGEAREA"."TBLSALESREPORT"                  160 MB
+.  estimou "BI_JULIO"."RETORNO"                           152 MB
+.  estimou "BI_JULIO"."SALES_REPORT"                    147.5 MB
+.  estimou "STAGEAREA"."TBLRESUMOCORTES"                 128 MB
+.  estimou "BI_JULIO"."CORTE"                             104 MB
+.  estimou "STAGEAREA"."BKP_TBLRESUMORETORNO"             96 MB
+.  estimou "BI_JULIO"."SITUACAO_CLIENTE"                   80 MB
+.  estimou "BI_JULIO"."CLIENTE_BKP"                        45 MB
+.  estimou "BI_JULIO"."CLIENTE"                            44 MB
+.  estimou "STAGEAREA"."TBLOBJETIVO"                      24 MB
+.  estimou "BI_JULIO"."OBJETIVO"                           21 MB
+.  estimou "STAGEAREA"."TBLCONFEREBI"                     10 MB
+.  estimou "STAGEAREA"."TBLCLIENTE"                        9 MB
+.  estimou "STAGEAREA"."TBLRESUMORETORNO_BKP"              2 MB
+.  estimou "STAGEAREA"."TBLRESUMORETORNO_17112008"         2 MB
+.  estimou "BI_JULIO"."PRODUTO"                           960 KB
+.  estimou "BI_JULIO"."PERIODO_DIA_OWB"                   896 KB
+.  estimou "STAGEAREA"."TBLCMV"                          832 KB
+.  estimou "BI_JULIO"."CMV"                               704 KB
+.  estimou "BI_JULIO"."PERIODO_DIA"                       576 KB
+.  estimou "STAGEAREA"."TBLSINCRONIZABI"                 384 KB
+.  estimou "STAGEAREA"."TBLCADASTRO"                     320 KB
+.  estimou "STAGEAREA"."TBLCIDADE"                       256 KB
+.  estimou "STAGEAREA"."TBLMATERIAL"                     256 KB
+.  estimou "BI_JULIO"."FILIAL"                            128 KB
+.  estimou "BI_JULIO"."MOTIVO_CORTE"                      128 KB
+.  estimou "BI_JULIO"."MOTIVO_RETORNO"                    128 KB
+.  estimou "BI_JULIO"."PERIODO"                           128 KB
+.  estimou "BI_JULIO"."TIPO_LANCAMENTO"                   128 KB
+.  estimou "BI_JULIO"."WB_RT_VERSION_FLAG"                128 KB
+.  estimou "STAGEAREA"."TBLDUN14"                        128 KB
+.  estimou "STAGEAREA"."TBLEAN13"                        128 KB
+.  estimou "STAGEAREA"."TBLMATERIALREDE"                 128 KB
+.  estimou "STAGEAREA"."TBLREPRESENTANTE"                128 KB
+.  estimou "STAGEAREA"."TBLUSUARIOREGIONAL"              128 KB
+.  estimou "STAGEAREA"."BKP_TBLPORTALUSER_12022007"       64 KB
+.  estimou "STAGEAREA"."SQLN_EXPLAIN_PLAN"                64 KB
+.  estimou "STAGEAREA"."TBLAREANIELSEN"                   64 KB
+.  estimou "STAGEAREA"."TBLASSMERCH"                      64 KB
+.  estimou "STAGEAREA"."TBLASSVENDAS"                     64 KB
+.  estimou "STAGEAREA"."TBLCATEGORIA"                     64 KB
+.  estimou "STAGEAREA"."TBLCHECKOUT"                      64 KB
+.  estimou "STAGEAREA"."TBLCONDPAGTO"                     64 KB
+.  estimou "STAGEAREA"."TBLDATAETL"                       64 KB
+.  estimou "STAGEAREA"."TBLEMBALAGEM"                     64 KB
+.  estimou "STAGEAREA"."TBLEMPRESA"                       64 KB
+.  estimou "STAGEAREA"."TBLFATO"                          64 KB
+.  estimou "STAGEAREA"."TBLFECHAMENTO"                    64 KB
+.  estimou "STAGEAREA"."TBLFILIAL"                        64 KB
+.  estimou "STAGEAREA"."TBLGRPCANAL"                      64 KB
+.  estimou "STAGEAREA"."TBLGRPECONOMICO"                  64 KB
+.  estimou "STAGEAREA"."TBLGRPREDE"                       64 KB
+.  estimou "STAGEAREA"."TBLKEYACCOUNT"                    64 KB
+.  estimou "STAGEAREA"."TBLLOG"                           64 KB
+.  estimou "STAGEAREA"."TBLMARCA"                         64 KB
+.  estimou "STAGEAREA"."TBLMERCADO"                       64 KB
+.  estimou "STAGEAREA"."TBLMIX"                           64 KB
+.  estimou "STAGEAREA"."TBLMIXMATERIAL"                   64 KB
+.  estimou "STAGEAREA"."TBLMOTIVOCORTE"                   64 KB
+.  estimou "STAGEAREA"."TBLMOTIVORETORNO"                 64 KB
+.  estimou "STAGEAREA"."TBLNATATIVIDADE"                  64 KB
+.  estimou "STAGEAREA"."TBLPAIS"                          64 KB
+.  estimou "STAGEAREA"."TBLPORTALUSER"                    64 KB
+.  estimou "STAGEAREA"."TBLPRODUTO"                       64 KB
+.  estimou "STAGEAREA"."TBLREDE"                          64 KB
+.  estimou "STAGEAREA"."TBLREGIAO"                        64 KB
+.  estimou "STAGEAREA"."TBLREGIONAL"                      64 KB
+.  estimou "STAGEAREA"."TBLSUPERVISOR"                    64 KB
+.  estimou "STAGEAREA"."TBLTIPOCARGA"                     64 KB
+.  estimou "STAGEAREA"."TBLTIPOCOMPRA"                    64 KB
+.  estimou "STAGEAREA"."TBLTIPOLANCTO"                    64 KB
+.  estimou "STAGEAREA"."TBLTIPOOBJ"                       64 KB
+.  estimou "STAGEAREA"."TBLUF"                            64 KB
+.  estimou "STAGEAREA"."TBLUSUARIO"                       64 KB
+.  estimou "STAGEAREA"."TBLMATERIALREDE_LOG"               0 KB
+.  estimou "STAGEAREA"."TESTE1"                            0 KB
+Estimativa total usando o mÚtodo de BLOCKS: 5.157 GB
+O job "BI_JULIO"."SYS_EXPORT_SCHEMA_01" foi concluÝdo com sucesso em 13:07:59
+
+
+C:\Documents and Settings\julio.correa>
