@@ -1,3 +1,3 @@
-select  'teste' from dual ;
+select  'testex' from dual ;
 /
 
